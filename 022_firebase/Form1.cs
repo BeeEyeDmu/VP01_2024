@@ -15,6 +15,8 @@ namespace _022_firebase
 {
   public partial class Form1 : Form
   {
+    DataTable dt = new DataTable();
+
     IFirebaseConfig config = new FirebaseConfig
     {
       AuthSecret = "btWERSK1LXtr37Qs27MSRzTBLmxAWJOggMhsjLZT",
@@ -35,23 +37,52 @@ namespace _022_firebase
       {
         MessageBox.Show("Connection 성공!");
       }
+
+      dt.Columns.Add("Id");
+      dt.Columns.Add("학번");
+      dt.Columns.Add("이름");
+      dt.Columns.Add("전화번호");
+
+      dataGridView1.DataSource = dt;
+      
+      export();
     }
 
     private async void btnInsert_Click(object sender, EventArgs e)
     {
+      // Firebase에서 cnt 가져오기
+      FirebaseResponse r = await client.GetAsync("Counter/");
+      Counter c = r.ResultAs<Counter>();
+
+      if (txtId.Text != "")
+        MessageBox.Show("Id는 auto increase이므로 무시됩니다!");
+
       var data = new Data
       {
-        Id = txtId.Text,
+        //Id = txtId.Text,
+        Id = (c.cnt+1).ToString(),
         SId = txtSId.Text,
         Name = txtName.Text,
         Phone = txtPhone.Text
       };
 
       SetResponse response =
-        await client.SetAsync("Phonebook/" + txtId.Text, data);
+        await client.SetAsync("Phonebook/" + data.Id, data);
+      //await client.SetAsync("Phonebook/" + txtId.Text, data);
       Data result = response.ResultAs<Data>();
 
       MessageBox.Show("Data Inserted! Id = " + result.Id);
+
+      // Counter를 업데이트
+      var obj = new Counter
+      {
+        cnt = c.cnt + 1
+      };
+      SetResponse resp 
+        = await client.SetAsync("Counter/", obj);
+
+      dt.Rows.Clear();
+      export();
     }
 
     private void btnClear_Click(object sender, EventArgs e)
@@ -101,6 +132,9 @@ namespace _022_firebase
 
       Data d = r.ResultAs<Data>();
 
+      dt.Rows.Clear();
+      export();
+
       MessageBox.Show("Data Updated Succefully! Id = " + d.Id);
     }
 
@@ -108,6 +142,8 @@ namespace _022_firebase
     {
       FirebaseResponse r = await
         client.DeleteAsync("Phonebook/" + txtId.Text);
+      dt.Rows.Clear();
+      export();
       MessageBox.Show("Deleted! : id = " + txtId.Text);
     }
 
@@ -115,7 +151,56 @@ namespace _022_firebase
     {
       FirebaseResponse r = await
         client.DeleteAsync("Phonebook");
+      dt.Rows.Clear();
+      export();
       MessageBox.Show("All data at Phonebook/ Deleted!");
+    }
+
+    private void btnViewAll_Click(object sender, EventArgs e)
+    {
+      dt.Rows.Clear();
+      export();
+    }
+
+    private async void export()
+    {
+      int i = 0;
+      FirebaseResponse r = await client.GetAsync("Counter/");
+      Counter obj = r.ResultAs<Counter>();
+      int cnt = obj.cnt;
+
+      while(i != cnt)
+      {
+        i++;
+        FirebaseResponse resp 
+          = await client.GetAsync("Phonebook/" + i);
+        Data d = resp.ResultAs<Data>();
+
+        if (d != null)
+        {
+          DataRow row = dt.NewRow();
+          row["Id"] = d.Id;
+          row["학번"] = d.SId;
+          row["이름"] = d.Name;
+          row["전화번호"] = d.Phone;
+          dt.Rows.Add(row);
+        }
+      }
+
+
+    }
+
+    private void dataGridView1_CellClick(object sender, 
+      DataGridViewCellEventArgs e)
+    {
+      DataGridView dgv = (DataGridView)sender;
+      if(e.RowIndex < 0) {
+        return;
+      }
+      txtId.Text = dgv.Rows[e.RowIndex].Cells[0].Value.ToString();
+      txtSId.Text = dgv.Rows[e.RowIndex].Cells[1].Value.ToString();
+      txtName.Text = dgv.Rows[e.RowIndex].Cells[2].Value.ToString();
+      txtPhone.Text = dgv.Rows[e.RowIndex].Cells[3].Value.ToString();
     }
   }
 }

@@ -37,7 +37,7 @@
       this.label3 = new System.Windows.Forms.Label();
       this.txtPhone = new System.Windows.Forms.TextBox();
       this.label4 = new System.Windows.Forms.Label();
-      this.button1 = new System.Windows.Forms.Button();
+      this.btnViewAll = new System.Windows.Forms.Button();
       this.btnInsert = new System.Windows.Forms.Button();
       this.btnRetrieve = new System.Windows.Forms.Button();
       this.btnClear = new System.Windows.Forms.Button();
@@ -45,6 +45,7 @@
       this.btnUpdate = new System.Windows.Forms.Button();
       this.btnDelete = new System.Windows.Forms.Button();
       this.btnDeleteAll = new System.Windows.Forms.Button();
+      this.label5 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
       this.SuspendLayout();
       // 
@@ -54,8 +55,9 @@
       this.dataGridView1.Location = new System.Drawing.Point(13, 13);
       this.dataGridView1.Name = "dataGridView1";
       this.dataGridView1.RowTemplate.Height = 23;
-      this.dataGridView1.Size = new System.Drawing.Size(417, 222);
+      this.dataGridView1.Size = new System.Drawing.Size(417, 202);
       this.dataGridView1.TabIndex = 0;
+      this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
       // 
       // label1
       // 
@@ -129,15 +131,16 @@
       this.label4.TabIndex = 7;
       this.label4.Text = "전화번호";
       // 
-      // button1
+      // btnViewAll
       // 
-      this.button1.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-      this.button1.Location = new System.Drawing.Point(208, 260);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(99, 23);
-      this.button1.TabIndex = 9;
-      this.button1.Text = "button1";
-      this.button1.UseVisualStyleBackColor = true;
+      this.btnViewAll.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.btnViewAll.Location = new System.Drawing.Point(208, 260);
+      this.btnViewAll.Name = "btnViewAll";
+      this.btnViewAll.Size = new System.Drawing.Size(99, 23);
+      this.btnViewAll.TabIndex = 9;
+      this.btnViewAll.Text = "View All";
+      this.btnViewAll.UseVisualStyleBackColor = true;
+      this.btnViewAll.Click += new System.EventHandler(this.btnViewAll_Click);
       // 
       // btnInsert
       // 
@@ -215,11 +218,22 @@
       this.btnDeleteAll.UseVisualStyleBackColor = true;
       this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
       // 
+      // label5
+      // 
+      this.label5.AutoSize = true;
+      this.label5.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.label5.Location = new System.Drawing.Point(81, 231);
+      this.label5.Name = "label5";
+      this.label5.Size = new System.Drawing.Size(285, 15);
+      this.label5.TabIndex = 17;
+      this.label5.Text = "※ Id: Auto Increse이므로 Insert할 때 쓰지 않습니다.";
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(446, 396);
+      this.Controls.Add(this.label5);
       this.Controls.Add(this.button5);
       this.Controls.Add(this.btnUpdate);
       this.Controls.Add(this.btnDelete);
@@ -227,7 +241,7 @@
       this.Controls.Add(this.btnClear);
       this.Controls.Add(this.btnRetrieve);
       this.Controls.Add(this.btnInsert);
-      this.Controls.Add(this.button1);
+      this.Controls.Add(this.btnViewAll);
       this.Controls.Add(this.txtPhone);
       this.Controls.Add(this.label4);
       this.Controls.Add(this.txtName);
@@ -257,7 +271,7 @@
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.TextBox txtPhone;
     private System.Windows.Forms.Label label4;
-    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button btnViewAll;
     private System.Windows.Forms.Button btnInsert;
     private System.Windows.Forms.Button btnRetrieve;
     private System.Windows.Forms.Button btnClear;
@@ -265,6 +279,7 @@
     private System.Windows.Forms.Button btnUpdate;
     private System.Windows.Forms.Button btnDelete;
     private System.Windows.Forms.Button btnDeleteAll;
+    private System.Windows.Forms.Label label5;
   }
 }
 
