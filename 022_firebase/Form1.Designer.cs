@@ -41,7 +41,7 @@
       this.btnInsert = new System.Windows.Forms.Button();
       this.btnRetrieve = new System.Windows.Forms.Button();
       this.btnClear = new System.Windows.Forms.Button();
-      this.button5 = new System.Windows.Forms.Button();
+      this.btnExit = new System.Windows.Forms.Button();
       this.btnUpdate = new System.Windows.Forms.Button();
       this.btnDelete = new System.Windows.Forms.Button();
       this.btnDeleteAll = new System.Windows.Forms.Button();
@@ -175,15 +175,16 @@
       this.btnClear.UseVisualStyleBackColor = true;
       this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
       // 
-      // button5
+      // btnExit
       // 
-      this.button5.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-      this.button5.Location = new System.Drawing.Point(332, 347);
-      this.button5.Name = "button5";
-      this.button5.Size = new System.Drawing.Size(99, 23);
-      this.button5.TabIndex = 16;
-      this.button5.Text = "button5";
-      this.button5.UseVisualStyleBackColor = true;
+      this.btnExit.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.btnExit.Location = new System.Drawing.Point(332, 347);
+      this.btnExit.Name = "btnExit";
+      this.btnExit.Size = new System.Drawing.Size(99, 23);
+      this.btnExit.TabIndex = 16;
+      this.btnExit.Text = "Exit";
+      this.btnExit.UseVisualStyleBackColor = true;
+      this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
       // 
       // btnUpdate
       // 
@@ -234,7 +235,7 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(446, 396);
       this.Controls.Add(this.label5);
-      this.Controls.Add(this.button5);
+      this.Controls.Add(this.btnExit);
       this.Controls.Add(this.btnUpdate);
       this.Controls.Add(this.btnDelete);
       this.Controls.Add(this.btnDeleteAll);
@@ -275,7 +276,7 @@
     private System.Windows.Forms.Button btnInsert;
     private System.Windows.Forms.Button btnRetrieve;
     private System.Windows.Forms.Button btnClear;
-    private System.Windows.Forms.Button button5;
+    private System.Windows.Forms.Button btnExit;
     private System.Windows.Forms.Button btnUpdate;
     private System.Windows.Forms.Button btnDelete;
     private System.Windows.Forms.Button btnDeleteAll;

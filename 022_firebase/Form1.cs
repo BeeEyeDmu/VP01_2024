@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using FireSharp.Config;
 using FireSharp.Interfaces;
-using FireSharp.Config;
 using FireSharp.Response;
+using System;
+using System.Data;
+using System.Windows.Forms;
 
 namespace _022_firebase
 {
@@ -87,6 +81,11 @@ namespace _022_firebase
 
     private void btnClear_Click(object sender, EventArgs e)
     {
+      Clear();  
+    }
+
+    private void Clear()
+    {
       txtId.Text = "";
       txtSId.Text = "";
       txtName.Text = "";
@@ -133,6 +132,7 @@ namespace _022_firebase
       Data d = r.ResultAs<Data>();
 
       dt.Rows.Clear();
+
       export();
 
       MessageBox.Show("Data Updated Succefully! Id = " + d.Id);
@@ -142,17 +142,36 @@ namespace _022_firebase
     {
       FirebaseResponse r = await
         client.DeleteAsync("Phonebook/" + txtId.Text);
+      
       dt.Rows.Clear();
       export();
       MessageBox.Show("Deleted! : id = " + txtId.Text);
+
     }
 
     private async void btnDeleteAll_Click(object sender, EventArgs e)
     {
+      DialogResult answer = MessageBox.Show(
+        "저장된 모든 데이터가 삭제됩니다. 계속하시겠습니까?",
+        "Warning!", MessageBoxButtons.YesNo,
+        MessageBoxIcon.Warning);
+
+      if (answer == DialogResult.No) 
+        return;
+
       FirebaseResponse r = await
         client.DeleteAsync("Phonebook");
+
+      var obj = new Counter
+      {
+        cnt = 0
+      };
+
+      SetResponse resp = await client.SetAsync("Counter/", obj);
+
       dt.Rows.Clear();
       export();
+      Clear();
       MessageBox.Show("All data at Phonebook/ Deleted!");
     }
 
@@ -194,13 +213,20 @@ namespace _022_firebase
       DataGridViewCellEventArgs e)
     {
       DataGridView dgv = (DataGridView)sender;
-      if(e.RowIndex < 0) {
+      
+      if(e.RowIndex < 0) 
+      {
         return;
       }
       txtId.Text = dgv.Rows[e.RowIndex].Cells[0].Value.ToString();
       txtSId.Text = dgv.Rows[e.RowIndex].Cells[1].Value.ToString();
       txtName.Text = dgv.Rows[e.RowIndex].Cells[2].Value.ToString();
       txtPhone.Text = dgv.Rows[e.RowIndex].Cells[3].Value.ToString();
+    }
+
+    private void btnExit_Click(object sender, EventArgs e)
+    {
+      this.Close();
     }
   }
 }
