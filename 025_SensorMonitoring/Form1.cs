@@ -9,13 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Windows.Forms.VisualStyles;
 
 namespace _025_SensorMonitoring
 {
   public partial class Form1 : Form
   {
     SerialPort sPort = null;
-    private double xCount = 200;
+    private double xCount = 50;
     // List<SensorData> myData = new List<SensorData>();
 
     // 시뮬레이션 용
@@ -41,9 +42,6 @@ namespace _025_SensorMonitoring
     {
       chart1.Titles.Add("조도");
       chart2.Titles.Add("온도/습도");
-
-      chart1.ChartAreas.Clear();
-      chart1.ChartAreas.Add("limu");
 
       chart1.Series.Clear();
       chart1.Series.Add("lumi");
@@ -125,16 +123,86 @@ namespace _025_SensorMonitoring
 
     private void T_Tick(object sender, EventArgs e)
     {
-      int value = r.Next(1024);
-      ShowValue(value.ToString());
+      int value = r.Next(800);
+      int temp = r.Next(35);
+      int humi = r.Next(30, 90);
+
+      string s = string.Format("{0}\t{1}\t{2}", temp, humi, value);
+      ShowValue(s);
+
     }
 
-    private void ShowValue(string v)
+    static int counter = 0;
+    static int skip = 0;
+    private void ShowValue(string s)
     {
-      listBox1.Items.Add(v);
+      counter++;
+      listBox1.Items.Add(s);
       listBox1.SelectedIndex = listBox1.Items.Count - 1;
-      progressBar1.Value = int.Parse(v);
-      chart1.Series[0].Points.Add(int.Parse(v));
+
+      if (++skip < 3)  // 통신된 데이터 3개를 무시한다
+        return;
+      else
+        skip = 3;
+
+      string[] sub = new string[3];
+      sub = s.Split('\t');
+
+      double temp = 0; // 온도
+      double humi = 0; // 습도
+      int lumi = 0; // 조도
+
+      temp = double.Parse(sub[0]);
+      humi = double.Parse(sub[1]);
+      lumi = int.Parse(sub[2]);
+
+      progressBar1.Value = lumi;
+      chart1.Series[0].Points.Add(lumi);
+
+      chart2.Series[0].Points.Add(temp);
+      chart2.Series[1].Points.Add(humi);
+
+      // 차트에 스크롤 기능 추가
+      chart1.ChartAreas[0].AxisX.Minimum = 0;
+      chart1.ChartAreas[0].AxisX.Maximum
+        = (counter >= xCount) ? counter : xCount;
+
+      if(counter > xCount)
+      {
+        chart1.ChartAreas[0].AxisX.ScaleView.Zoom(
+          counter - xCount, counter);
+        chart2.ChartAreas[0].AxisX.ScaleView.Zoom(
+          counter - xCount, counter);
+      }
+
+      chart2.ChartAreas[0].AxisX.Minimum = 0;
+      chart2.ChartAreas[0].AxisX.Maximum
+        = (counter >= xCount) ? counter : xCount;
+
+    }
+
+    private void 끝ToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+      t.Stop();
+    }
+
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if (sPort != null)  // sPort가 이미 설정되었다면?
+        return;
+      ComboBox cb = sender as ComboBox;  // (ComboBox)sender
+      sPort = new SerialPort(cb.SelectedItem.ToString());
+      sPort.Open();
+      sPort.DataReceived += SPort_DataReceived;
+
+      btnDisconnect.Enabled = true;
+      btnConnect.Enabled = false;
+    }
+
+    private void SPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+    {
+      string s = sPort.ReadLine();
+      this.BeginInvoke(new Action(() => { ShowValue(s); }));
     }
   }
 }

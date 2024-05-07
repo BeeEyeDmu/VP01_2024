@@ -42,14 +42,14 @@
       this.lblConnectionTime = new System.Windows.Forms.Label();
       this.txtCount = new System.Windows.Forms.TextBox();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.comboBox1 = new System.Windows.Forms.ComboBox();
-      this.btnConnect = new System.Windows.Forms.Button();
-      this.btnDisconnect = new System.Windows.Forms.Button();
       this.btnPortValue = new System.Windows.Forms.Button();
+      this.btnDisconnect = new System.Windows.Forms.Button();
+      this.btnConnect = new System.Windows.Forms.Button();
+      this.comboBox1 = new System.Windows.Forms.ComboBox();
       this.groupBox2 = new System.Windows.Forms.GroupBox();
-      this.progressBar1 = new System.Windows.Forms.ProgressBar();
-      this.label2 = new System.Windows.Forms.Label();
       this.label3 = new System.Windows.Forms.Label();
+      this.label2 = new System.Windows.Forms.Label();
+      this.progressBar1 = new System.Windows.Forms.ProgressBar();
       this.listBox1 = new System.Windows.Forms.ListBox();
       this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
       this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -101,6 +101,7 @@
       this.끝ToolStripMenuItem.Name = "끝ToolStripMenuItem";
       this.끝ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
       this.끝ToolStripMenuItem.Text = "끝";
+      this.끝ToolStripMenuItem.Click += new System.EventHandler(this.끝ToolStripMenuItem_Click);
       // 
       // lblConnectionTime
       // 
@@ -135,22 +136,13 @@
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Port";
       // 
-      // comboBox1
+      // btnPortValue
       // 
-      this.comboBox1.FormattingEnabled = true;
-      this.comboBox1.Location = new System.Drawing.Point(16, 32);
-      this.comboBox1.Name = "comboBox1";
-      this.comboBox1.Size = new System.Drawing.Size(162, 23);
-      this.comboBox1.TabIndex = 0;
-      // 
-      // btnConnect
-      // 
-      this.btnConnect.Location = new System.Drawing.Point(16, 59);
-      this.btnConnect.Name = "btnConnect";
-      this.btnConnect.Size = new System.Drawing.Size(162, 29);
-      this.btnConnect.TabIndex = 1;
-      this.btnConnect.Text = "Connect";
-      this.btnConnect.UseVisualStyleBackColor = true;
+      this.btnPortValue.Location = new System.Drawing.Point(16, 129);
+      this.btnPortValue.Name = "btnPortValue";
+      this.btnPortValue.Size = new System.Drawing.Size(162, 141);
+      this.btnPortValue.TabIndex = 3;
+      this.btnPortValue.UseVisualStyleBackColor = true;
       // 
       // btnDisconnect
       // 
@@ -162,13 +154,23 @@
       this.btnDisconnect.UseVisualStyleBackColor = true;
       this.btnDisconnect.Click += new System.EventHandler(this.button2_Click);
       // 
-      // btnPortValue
+      // btnConnect
       // 
-      this.btnPortValue.Location = new System.Drawing.Point(16, 129);
-      this.btnPortValue.Name = "btnPortValue";
-      this.btnPortValue.Size = new System.Drawing.Size(162, 141);
-      this.btnPortValue.TabIndex = 3;
-      this.btnPortValue.UseVisualStyleBackColor = true;
+      this.btnConnect.Location = new System.Drawing.Point(16, 59);
+      this.btnConnect.Name = "btnConnect";
+      this.btnConnect.Size = new System.Drawing.Size(162, 29);
+      this.btnConnect.TabIndex = 1;
+      this.btnConnect.Text = "Connect";
+      this.btnConnect.UseVisualStyleBackColor = true;
+      // 
+      // comboBox1
+      // 
+      this.comboBox1.FormattingEnabled = true;
+      this.comboBox1.Location = new System.Drawing.Point(16, 32);
+      this.comboBox1.Name = "comboBox1";
+      this.comboBox1.Size = new System.Drawing.Size(162, 23);
+      this.comboBox1.TabIndex = 0;
+      this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
       // 
       // groupBox2
       // 
@@ -183,12 +185,14 @@
       this.groupBox2.TabStop = false;
       this.groupBox2.Text = "PhotoCell";
       // 
-      // progressBar1
+      // label3
       // 
-      this.progressBar1.Location = new System.Drawing.Point(6, 27);
-      this.progressBar1.Name = "progressBar1";
-      this.progressBar1.Size = new System.Drawing.Size(544, 23);
-      this.progressBar1.TabIndex = 0;
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(518, 57);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(35, 15);
+      this.label3.TabIndex = 2;
+      this.label3.Text = "1023";
       // 
       // label2
       // 
@@ -199,14 +203,12 @@
       this.label2.TabIndex = 1;
       this.label2.Text = "0";
       // 
-      // label3
+      // progressBar1
       // 
-      this.label3.AutoSize = true;
-      this.label3.Location = new System.Drawing.Point(518, 57);
-      this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(35, 15);
-      this.label3.TabIndex = 2;
-      this.label3.Text = "1023";
+      this.progressBar1.Location = new System.Drawing.Point(6, 27);
+      this.progressBar1.Name = "progressBar1";
+      this.progressBar1.Size = new System.Drawing.Size(544, 23);
+      this.progressBar1.TabIndex = 0;
       // 
       // listBox1
       // 
